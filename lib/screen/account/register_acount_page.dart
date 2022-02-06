@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farm/tools/push.dart';
 import 'package:farm/tools/random_id.dart';
+import 'package:farm/tools/validations.dart';
 import 'package:farm/widget/app_text.dart';
 import 'package:farm/widget/btn.dart';
 import 'package:farm/widget/input.dart';
@@ -61,6 +62,9 @@ class _RegisterAccountPageState extends State<RegisterAccountPage> {
                   hintText: 'الاسم',
                   icon: nameIcon,
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  validator: (value) {
+                    return ValidatorClass.validateEmail(value);
+                  },
                 ),
                 const SizedBox(height: 10.0),
                 //number textField----------------------------------------------------------------
@@ -70,6 +74,9 @@ class _RegisterAccountPageState extends State<RegisterAccountPage> {
                   hintText: 'رقم السجل التجاري',
                   icon: recordIcon,
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  validator: (value) {
+                    return ValidatorClass.validateEmail(value);
+                  },
                 ),
                 const SizedBox(height: 10.0),
                 //phone textField----------------------------------------------------------------
@@ -79,6 +86,9 @@ class _RegisterAccountPageState extends State<RegisterAccountPage> {
                   hintText: 'رقم الجوال',
                   icon: phoneIcon,
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  validator: (value) {
+                    return ValidatorClass.emptyField(value);
+                  },
                 ),
                 const SizedBox(height: 10.0),
                 //email textField----------------------------------------------------------------
@@ -88,7 +98,9 @@ class _RegisterAccountPageState extends State<RegisterAccountPage> {
                   hintText: 'الايميل',
                   icon: emailIcon,
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  validator: (value) {},
+                  validator: (value) {
+                    return ValidatorClass.validateEmail(value);
+                  },
                 ),
                 const SizedBox(height: 10.0),
                 //pass textField----------------------------------------------------------------
@@ -98,6 +110,9 @@ class _RegisterAccountPageState extends State<RegisterAccountPage> {
                   hintText: 'كلمة المرور',
                   icon: showPassIcon,
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  validator: (value) {
+                    return ValidatorClass.validateEmail(value);
+                  },
                 ),
                 const SizedBox(height: 20.0),
                 //sing up buttom ----------------------------------------------------------------
@@ -106,6 +121,10 @@ class _RegisterAccountPageState extends State<RegisterAccountPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Btn(
                     onPressed: () {
+                      // for validations
+                      if (!_formKey.currentState!.validate()) {
+                        return;
+                      }
                       // for auth
                       final _firebaseAuth = FirebaseAuth.instance;
                       // for save data on firestore

@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import '../../tools/validations.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -51,7 +53,9 @@ class _LoginPageState extends State<LoginPage> {
                     hintText: 'البريد الالكتروني',
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     icon: nameIcon,
-                    validator: (value) {},
+                    validator: (value) {
+                      return ValidatorClass.validateEmail(value);
+                    },
                   ),
                   const SizedBox(height: 10.0),
                   //كلمة المرور ----------------------------------------------------------------
@@ -61,6 +65,9 @@ class _LoginPageState extends State<LoginPage> {
                     hintText: 'كلمة المرور',
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     icon: emailIcon,
+                    validator: (value) {
+                      return ValidatorClass.emptyField(value);
+                    },
                   ),
 
                   const SizedBox(height: 40.0),
@@ -68,6 +75,10 @@ class _LoginPageState extends State<LoginPage> {
 
                   Btn(
                     onPressed: () {
+                      // for validations
+                      if (!_formKey.currentState!.validate()) {
+                        return;
+                      }
                       //
                       if (_emailController.text.isNotEmpty &&
                           _passwordController.text.isNotEmpty) {
